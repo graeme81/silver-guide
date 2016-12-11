@@ -11,7 +11,9 @@ class Customer
   end
 
   def save()
-    sql = "INSERT INTO customers (name, funds) VALUES ('#{ @name }', #{funds}) RETURNING id"
+    sql = "INSERT INTO customers (name, funds) 
+           VALUES ('#{ @name }', #{funds}) 
+           RETURNING id"
     customer = SqlRunner.run( sql ).first
     @id = customer['id'].to_i
   end
@@ -37,7 +39,20 @@ class Customer
             INNER JOIN tickets
             ON tickets.film_id = films.id
             WHERE customer_id = #{@id};"
-    return Film.get_many( sql )     
+    return Film.get_many( sql )
+  end
+
+  def film_count()
+    films().count
+  end
+
+  def self.update(nam, fund)
+    sql = "UPDATE customers c
+           SET (name ,funds) = (nam, fund)
+           WHERE id = {@id}"
+
+           binding.pry
+    SqlRunner.run(sql)
   end
 
 end

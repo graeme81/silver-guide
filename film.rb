@@ -11,7 +11,9 @@ class Film
   end 
 
   def save()
-    sql = "INSERT INTO films (title, price) VALUES ('#{ @title}', #{ @price }) RETURNING id"
+    sql = "INSERT INTO films (title, price) 
+           VALUES ('#{ @title}', #{ @price }) 
+           RETURNING id"
     film = SqlRunner.run( sql ).first
     @id = film['id'].to_i
   end
@@ -32,13 +34,23 @@ class Film
     return movies
   end
 
+  def update()
+    sql = "UPDATE films 
+           SET (title ,price) = ('#{@title}', #{price})
+           WHERE id = #{@id};"
+    SqlRunner.run(sql)
+  end
+
   def customers()
     sql = " SELECT customers.* FROM customers
             INNER JOIN tickets
             ON tickets.customer_id = customers.id
             WHERE film_id = #{@id};"
-
     return Customer.get_many( sql )     
+  end
+
+  def customer_count()
+    customers().count
   end
 
 end
