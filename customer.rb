@@ -48,8 +48,8 @@ class Customer
 
   def self.update(nam, fund)
     sql = "UPDATE customers c
-           SET (name ,funds) = (nam, fund)
-           WHERE id = {@id}"
+           SET funds = #{fund}
+           WHERE c.name = '#{nam}'"
 
            binding.pry
     SqlRunner.run(sql)

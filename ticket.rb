@@ -17,7 +17,7 @@ class Ticket
     ticket = SqlRunner.run( sql ).first
     @id = ticket['id'].to_i
 
-   #charge_customer()
+   charge_customer()
 
   end
 
@@ -37,7 +37,7 @@ class Ticket
 
     binding.pry
 
-    Customer.update(name, funds, customer_id)
+    Customer.update(name, funds)
 
   end
 
